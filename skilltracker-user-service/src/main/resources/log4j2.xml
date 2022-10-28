@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="[%-p][%d{yyyy-MM-dd HH:mm:ss,SSS}}][%t]: %m%n" />
+        </Console>
+        <RollingFile name="FileAppender" fileName="/var/log/skilltracker/skilltracker-nonadmin.log"
+                     filePattern="/var/log/skilltracker/skilltracker-nonadmin.log.%i.gz" >
+           <PatternLayout pattern="[%-p][%d{yyyy-MM-dd HH:mm:ss,SSS}}][%t] %c{1}:%L - %m%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="524288000" />
+            </Policies>
+            <DefaultRolloverStrategy max="13"/>
+        </RollingFile>
+
+        <RollingFile name="RollingJson" fileName="/var/log/skilltracker/skilltracker-nonadmin.json"
+                     filePattern="/var/log/skilltracker/skilltracker-nonadmin.json.%i.gz" immediateFlush="true" append="true">
+<!--            <JsonLayout complete="false" compact="true" properties="true" eventEol="true"></JsonLayout>-->
+            <LevelRangeFilter minLevel="INFO" maxLevel="TRACE" onMatch="ACCEPT"/>
+            <JsonTemplateLayout locationInfoEnabled="true" eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="524288000" />
+            </Policies>
+            <DefaultRolloverStrategy max="13"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.hack.fse" level="info" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Logger>
+        <Logger name="org.springframework" level="warn" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Logger>
+        <Logger name="org.hibernate" level="error" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Logger>
+        <Logger name="com.amazonaws" level="warn" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Logger>
+        <Logger name="org.apache" level="error" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Logger>
+        <Logger name="httpclient" level="error" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="ConsoleAppender" />
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="RollingJson" />
+        </Root>
+    </Loggers>
+</Configuration>

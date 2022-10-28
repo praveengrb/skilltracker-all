@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <mirrors>
+        <mirror>
+            <id>ctshackfse-maven-central-store</id>
+            <name>ctshackfse-maven-central-store</name>
+            <url>https://ctshackfse-692645377115.d.codeartifact.us-east-1.amazonaws.com/maven/maven-central-store/</url>
+            <mirrorOf>*</mirrorOf>
+        </mirror>
+    </mirrors>
+    <servers>
+        <server>
+            <id>ctshackfse-maven-central-store</id>
+            <username>aws</username>
+            <password>${env.CODEARTIFACT_AUTH_TOKEN}</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>ctshackfse-maven-central-store</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>ctshackfse-maven-central-store</id>
+                    <url>https://ctshackfse-692645377115.d.codeartifact.us-east-1.amazonaws.com/maven/maven-central-store/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+</settings>
